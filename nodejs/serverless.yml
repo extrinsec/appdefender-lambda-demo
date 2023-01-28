@@ -1,0 +1,25 @@
+service: appguard-on-lambda-nodejs
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-latest-layer-version
+
+provider:
+  name: aws
+  logRetentionInDays: 7
+  layers:
+    - arn:aws:lambda:us-east-1:201476247173:layer:Extrinsec-Appguard:9
+
+functions:
+  nodejs:
+    handler: index.demo_nodejs
+    runtime: nodejs16.x
+    environment:
+      ES_POLICY_GROUP_NAME: ${env:ES_POLICY_GROUP_NAME, 'observeAll.ability'}
+      ES_LICENSE_KEY: '${env:ES_LICENSE_KEY}'
+      AWS_LAMBDA_EXEC_WRAPPER: '/opt/extrinsec-appguard.sh'
+    events:
+      - httpApi:
+          path: /ndoejs-demo
+          method: get
