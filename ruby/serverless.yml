@@ -1,0 +1,23 @@
+service: appdefender-on-lambda-ruby
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-1
+  logRetentionInDays: 7
+  layers:
+    - arn:aws:lambda:us-east-1:201476247173:layer:Extrinsec-Appdefender:1
+
+functions:
+  ruby:
+    handler: handler.demo_ruby
+    runtime: ruby2.7
+    environment:
+      ES_POLICY_GROUP_NAME: ${env:ES_POLICY_GROUP_NAME, 'observeAll.ability'}
+      ES_LICENSE_KEY: '${env:ES_LICENSE_KEY}'
+      AWS_LAMBDA_EXEC_WRAPPER: '/opt/extrinsec-appdefender.sh'
+    events:
+      - httpApi:
+          path: /ruby-demo
+          method: get

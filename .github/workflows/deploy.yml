@@ -1,0 +1,50 @@
+name: appdefender on AWS Lambda
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - uses: serverless/github-action@v3.1
+        with:
+          args: -c "cd ./nodejs && serverless deploy && serverless invoke --function nodejs"
+          entrypoint: /bin/sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ES_LICENSE_KEY: ${{ secrets.ES_LICENSE_KEY }}
+          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'observeAll.ability' }}
+
+      - uses: serverless/github-action@v3.1
+        with:
+          args: -c "cd ./python && serverless plugin install --name serverless-python-requirements &&
+            serverless deploy && serverless invoke --function python"
+          entrypoint: /bin/sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ES_LICENSE_KEY: ${{ secrets.ES_LICENSE_KEY }}
+          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'observeAll.ability' }}
+
+      - uses: serverless/github-action@v3.1
+        with:
+          args: -c "cd ./ruby && serverless deploy && serverless invoke --function ruby"
+          entrypoint: /bin/sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ES_LICENSE_KEY: ${{ secrets.ES_LICENSE_KEY }}
+          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'observeAll.ability' }}
