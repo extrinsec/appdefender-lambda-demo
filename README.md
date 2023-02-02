@@ -22,6 +22,7 @@ This repo demonstrates running a sample Lambda function with Extrinsec Appguard 
 1. enable and run the Github Actions workflow
 1. observe your Lambda logs
 
-Note:
+### Note
+
 - three functions with runtimes for NodeJS, Python and Ruby are shown here.  Feel free to remove any that you don't use, or change the runtime versions
 - only outbound data capturing by Appguard is shown in these samples.  Feel free to update the functions to see other use cases
