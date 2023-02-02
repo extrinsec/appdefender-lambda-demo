@@ -8,6 +8,9 @@ on:
 
   workflow_dispatch:
 
+env:
+  ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'denyAll.ability' }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
