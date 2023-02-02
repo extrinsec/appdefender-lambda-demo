@@ -8,9 +8,6 @@ on:
 
   workflow_dispatch:
 
-env:
-  ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'denyAll.ability' }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -42,7 +39,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ES_LICENSE_KEY: ${{ secrets.ES_LICENSE_KEY }}
-          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME }}
+          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'observeAll.ability' }}
 
       - uses: serverless/github-action@v3.1
         with:
@@ -53,4 +50,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ES_LICENSE_KEY: ${{ secrets.ES_LICENSE_KEY }}
-          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME }}
+          ES_POLICY_GROUP_NAME: ${{ secrets.ES_POLICY_GROUP_NAME || 'observeAll.ability' }}
