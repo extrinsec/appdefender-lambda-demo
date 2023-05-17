@@ -12,7 +12,7 @@ provider:
 functions:
   nodejs:
     handler: index.demo_nodejs
-    runtime: nodejs16.x
+    runtime: nodejs18.x
     environment:
       ES_POLICY_GROUP_NAME: ${env:ES_POLICY_GROUP_NAME, 'observeAll.ability'}
       ES_LICENSE_KEY: '${env:ES_LICENSE_KEY}'
